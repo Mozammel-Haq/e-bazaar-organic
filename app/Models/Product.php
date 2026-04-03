@@ -29,4 +29,12 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id');
+    }
+    public function orderItems()
+    {
+        return $this->hasManyThrough(OrderItem::class, ProductVariant::class, 'product_id', 'product_variant_id', 'id', 'id');
+    }
 }

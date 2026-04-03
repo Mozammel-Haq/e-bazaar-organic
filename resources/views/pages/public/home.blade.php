@@ -1,11 +1,22 @@
-{{-- @php
-    dd($featured_products);
-@endphp --}}
+@php
+    // dd($best_selling_products1);
+@endphp
 
 @extends('layouts.app')
 
 @section('title', 'Home')
+@section('styles')
+    <style>
+        .latest-product__item__text .rating {
+            color: #7fad39;
+            font-size: 14px;
 
+            &::hover {
+                color: #7fad39;
+            }
+        }
+    </style>
+@endsection
 
 @section('content')
 
@@ -222,127 +233,112 @@
                         <h4>Top Rated Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($top_rated_products1 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                            {{-- rating stars bassed on numbers 1.00-5.00 --}}
+                                            <div class="rating">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $product->reviews_avg_rating)
+                                                        <i class="fa fa-star"></i>
+                                                    @else
+                                                        <i class="fa fa-star-o"></i>
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($top_rated_products2 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                            {{-- rating stars bassed on numbers 1.00-5.00 --}}
+                                            <div class="rating">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $product->reviews_avg_rating)
+                                                        <i class="fa fa-star"></i>
+                                                    @else
+                                                        <i class="fa fa-star-o"></i>
+                                                    @endif
+                                                @endfor
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
-                        <h4>Review Products</h4>
+                        <h4>Best Selling Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($best_selling_products1 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($best_selling_products2 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>

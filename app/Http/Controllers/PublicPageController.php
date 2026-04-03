@@ -20,8 +20,15 @@ class PublicPageController extends Controller
         $latest_products1 = Product::with('images', 'variants')->orderBy('created_at', 'desc')->limit(3)->get();
         $latest_products2 = Product::with('images', 'variants')->orderBy('created_at', 'desc')->limit(3)->skip(3)->get();
 
-        // 
-        return view('pages.public.home', compact('categories', 'featured_products', 'featured_categories', 'categoriesAll', 'latest_products1', 'latest_products2'));
+        // Top rated Products
+        $top_rated_products1 = Product::with('images', 'variants')->withAvg('reviews', 'rating')->orderByDesc('reviews_avg_rating')->limit(3)->get();
+        $top_rated_products2 = Product::with('images', 'variants')->withAvg('reviews', 'rating')->orderByDesc('reviews_avg_rating')->limit(3)->skip(3)->get();
+
+        // Best Selling products
+        $best_selling_products1 = Product::with('images', 'variants')->withCount('orderItems')->orderByDesc('order_items_count')->limit(3)->get();
+        $best_selling_products2 = Product::with('images', 'variants')->withCount('orderItems')->orderByDesc('order_items_count')->limit(3)->skip(3)->get();
+
+        return view('pages.public.home', compact('categories', 'featured_products', 'featured_categories', 'categoriesAll', 'latest_products1', 'latest_products2', 'top_rated_products1', 'top_rated_products2', 'best_selling_products1', 'best_selling_products2'));
     }
     public function products()
     {
