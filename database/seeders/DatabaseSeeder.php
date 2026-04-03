@@ -16,15 +16,38 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Create admin user
         User::factory()->create([
             'name' => 'Mozammel Haq',
             'email' => 'hmojammel29@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-        $this->call(CustomerSeeder::class);
+
+        // Basic data
         $this->call(CategorySeeder::class);
+        $this->call(BrandSeeder::class);
+        $this->call(UnitSeeder::class);
+
+        // Users and customers
+        $this->call(CustomerSeeder::class);
+        $this->call(CustomerAddressSeeder::class);
+
+        // Suppliers and warehouses
+        $this->call(SupplierSeeder::class);
+        $this->call(WarehouseSeeder::class);
+
+        // Products
         $this->call(ProductSeeder::class);
+
+        // Inventory and stock
+        $this->call(StockSeeder::class);
+        $this->call(StockMovementSeeder::class);
+        $this->call(PurchaseSeeder::class);
+
+        // Discounts and coupons
+        $this->call(DiscountSeeder::class);
+
+        // Reviews
+        $this->call(ReviewSeeder::class);
     }
 }

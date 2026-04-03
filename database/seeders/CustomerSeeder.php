@@ -2,38 +2,113 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('customers')->insert([
+        // Create customer users first
+        $customerUsers = [
             [
-                'user_id' => 1,
+                'name' => 'John Doe',
+                'email' => 'john.doe@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Jane Smith',
+                'email' => 'jane.smith@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Robert Johnson',
+                'email' => 'robert.johnson@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Emily Davis',
+                'email' => 'emily.davis@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Michael Wilson',
+                'email' => 'michael.wilson@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ];
+
+        DB::table('users')->insert($customerUsers);
+
+        // Get the user IDs we just created
+        $userIds = DB::table('users')->whereIn('email', array_column($customerUsers, 'email'))->pluck('id')->toArray();
+
+        // Create customer profiles
+        $customers = [
+            [
+                'user_id' => $userIds[0], // John Doe
                 'first_name' => 'John',
                 'last_name' => 'Doe',
-                'phone' => '1234567890',
+                'phone' => '+1-555-0201',
                 'gender' => 'male',
-                'date_of_birth' => '1990-01-01',
+                'date_of_birth' => '1985-06-15',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-        ]);
-        DB::table('customer_addresses')->insert([
             [
-                // address line 1, address line 2, city,zip,is_default
-                'customer_id' => 1,
-                'address_type' => 'home',
-                'address_line_1' => '123 Main St',
-                'address_line_2' => '',
-                'city' => 'City',
-                'zip' => '12345',
-                'is_default' => true,
+                'user_id' => $userIds[1], // Jane Smith
+                'first_name' => 'Jane',
+                'last_name' => 'Smith',
+                'phone' => '+1-555-0202',
+                'gender' => 'female',
+                'date_of_birth' => '1990-03-22',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
-        ]);
+            [
+                'user_id' => $userIds[2], // Robert Johnson
+                'first_name' => 'Robert',
+                'last_name' => 'Johnson',
+                'phone' => '+1-555-0203',
+                'gender' => 'male',
+                'date_of_birth' => '1978-11-08',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => $userIds[3], // Emily Davis
+                'first_name' => 'Emily',
+                'last_name' => 'Davis',
+                'phone' => '+1-555-0204',
+                'gender' => 'female',
+                'date_of_birth' => '1992-09-30',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => $userIds[4], // Michael Wilson
+                'first_name' => 'Michael',
+                'last_name' => 'Wilson',
+                'phone' => '+1-555-0205',
+                'gender' => 'male',
+                'date_of_birth' => '1988-04-12',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ];
+
+        DB::table('customers')->insert($customers);
     }
 }

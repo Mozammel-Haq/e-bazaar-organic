@@ -9,7 +9,7 @@
 
 @section('content')
 
-        <!-- Hero Section Begin -->
+    <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
@@ -43,7 +43,7 @@
                         <!-- Dropdown positioned at hero level -->
                         <ul class="hero__search__categories__dropdown">
                             <li><a href="#">All Categories</a></li>
-                            @forelse ($categories as $category)
+                            @forelse ($categoriesAll as $category)
                                 <li><a href="#">{{ $category->name }}</a></li>
                             @empty
                                 <li><a href="#">No Categories Found</a></li>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg" data-setbg={{asset('img/hero/banner.jpg')}}>
+                    <div class="hero__item set-bg" data-setbg={{ asset('img/hero/banner.jpg') }}>
                         <div class="hero__text">
                             <span>FRUIT FRESH</span>
                             <h2>Vegetable <br />100% Organic</h2>
@@ -78,12 +78,12 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-                    @forelse ($categories as $category)
+                    @forelse ($categoriesAll as $category)
                         <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg={{asset($category->image_path)}}>
-                            <h5><a href="#">{{ $category->name }}</a></h5>
+                            <div class="categories__item set-bg" data-setbg={{ asset($category->image_path) }}>
+                                <h5><a href="#">{{ $category->name }}</a></h5>
+                            </div>
                         </div>
-                    </div>
                     @empty
                         <p>No categories found</p>
                     @endforelse
@@ -105,7 +105,7 @@
                         <ul>
                             <li class="active" data-filter="*">All</li>
                             @foreach ($featured_categories as $f_category)
-                            <li data-filter=".{{ Str::slug($f_category->name) }}">{{ $f_category->name }}</li>
+                                <li data-filter=".{{ Str::slug($f_category->name) }}">{{ $f_category->name }}</li>
                             @endforeach
 
                         </ul>
@@ -114,32 +114,32 @@
             </div>
             <div class="row featured__filter">
                 @foreach ($featured_products as $product)
+                    @php
+                        $filterClass = Str::slug($product->category->name);
+                    @endphp
 
-                @php
-                    $filterClass = Str::slug($product->category->name);
-                @endphp
-
-                <div class="col-lg-3 col-md-4 col-sm-6 mix {{ $filterClass }}">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg={{asset($product->images->first()->image_path)}}>
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">{{ $product->name }}</a></h6>
-                            <h5>
-                                @if($product->variants->isNotEmpty())
-                                    ${{ $product->variants->first()->price }}
-                                @else
-                                    Price not available
-                                @endif
-                            </h5>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix {{ $filterClass }}">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg"
+                                data-setbg={{ asset($product->images->first()->image_path) }}>
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="#">{{ $product->name }}</a></h6>
+                                <h5>
+                                    @if ($product->variants->isNotEmpty())
+                                        ${{ $product->variants->first()->price }}
+                                    @else
+                                        Price not available
+                                    @endif
+                                </h5>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -152,12 +152,12 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="{{asset('img/banner/banner-1.jpg')}}" alt="">
+                        <img src="{{ asset('img/banner/banner-1.jpg') }}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="{{asset('img/banner/banner-2.jpg')}}" alt="">
+                        <img src="{{ asset('img/banner/banner-2.jpg') }}" alt="">
                     </div>
                 </div>
             </div>
@@ -174,62 +174,45 @@
                         <h4>Latest Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($latest_products1 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </a>
+                                @endforeach
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                                @foreach ($latest_products2 as $product)
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset($product->images->first()->image_path) }}"
+                                                alt="{{ $product->name }}">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->name }}</h6>
+                                            <span>
+                                                @if ($product->variants->isNotEmpty())
+                                                    ${{ $product->variants->first()->price }}
+                                                @else
+                                                    Price not available
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </a>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
@@ -241,7 +224,7 @@
                             <div class="latest-prdouct__slider__item">
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -250,7 +233,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -259,7 +242,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -270,7 +253,7 @@
                             <div class="latest-prdouct__slider__item">
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -279,7 +262,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -288,7 +271,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -306,7 +289,7 @@
                             <div class="latest-prdouct__slider__item">
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -315,7 +298,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -324,7 +307,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -335,7 +318,7 @@
                             <div class="latest-prdouct__slider__item">
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-1.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-1.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -344,7 +327,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-2.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-2.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -353,7 +336,7 @@
                                 </a>
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/latest-product/lp-3.jpg')}}" alt="">
+                                        <img src="{{ asset('img/latest-product/lp-3.jpg') }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>Crab Pool Security</h6>
@@ -383,7 +366,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{asset('img/blog/blog-1.jpg')}}" alt="">
+                            <img src="{{ asset('img/blog/blog-1.jpg') }}" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
@@ -398,7 +381,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{asset('img/blog/blog-2.jpg')}}" alt="">
+                            <img src="{{ asset('img/blog/blog-2.jpg') }}" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
@@ -413,7 +396,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{asset('img/blog/blog-3.jpg')}}" alt="">
+                            <img src="{{ asset('img/blog/blog-3.jpg') }}" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
@@ -433,34 +416,34 @@
 @endsection
 
 @section('scripts')
-<script>
-$(document).ready(function() {
-    // Search categories dropdown
-    $('.hero__search__categories').on('click', function(e){
-        e.stopPropagation();
-        $('.hero__search__categories__dropdown').slideToggle(400);
-    });
+    <script>
+        $(document).ready(function() {
+            // Search categories dropdown
+            $('.hero__search__categories').on('click', function(e) {
+                e.stopPropagation();
+                $('.hero__search__categories__dropdown').slideToggle(400);
+            });
 
-    // Close dropdown when clicking outside
-    $(document).on('click', function() {
-        $('.hero__search__categories__dropdown').slideUp(400);
-    });
+            // Close dropdown when clicking outside
+            $(document).on('click', function() {
+                $('.hero__search__categories__dropdown').slideUp(400);
+            });
 
-    // Handle category selection
-    $('.hero__search__categories__dropdown li a').on('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var selectedCategory = $(this).text();
-        $('.hero__search__categories').contents().filter(function() {
-            return this.nodeType === 3 && this.textContent.trim().length > 0;
-        }).replaceWith(selectedCategory);
-        $('.hero__search__categories__dropdown').slideUp(400);
-    });
+            // Handle category selection
+            $('.hero__search__categories__dropdown li a').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var selectedCategory = $(this).text();
+                $('.hero__search__categories').contents().filter(function() {
+                    return this.nodeType === 3 && this.textContent.trim().length > 0;
+                }).replaceWith(selectedCategory);
+                $('.hero__search__categories__dropdown').slideUp(400);
+            });
 
-    // Prevent dropdown from closing when clicking inside
-    $('.hero__search__categories__dropdown').on('click', function(e) {
-        e.stopPropagation();
-    });
-});
-</script>
+            // Prevent dropdown from closing when clicking inside
+            $('.hero__search__categories__dropdown').on('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
 @endsection
